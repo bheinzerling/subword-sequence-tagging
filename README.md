@@ -9,7 +9,7 @@ To run the POS tagging experiments described in the paper use a command like the
 ```
 python main.py train \
     --dataset ud_1_2 \
-    --lang et \
+    --lang el \
     --tag upostag \
     --use-char \
     --use-bpe \
