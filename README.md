@@ -72,6 +72,8 @@ Having said that, the project structure is:
 - out/: results and model checkpoints will be written in a subdirectory for each run
 - out/cache: tensorized datasets will be cached here
 
+Feel free to send me an email or open an issue if anything is unclear and/or doesn't work.
+
 ## Requirements
 
 `pytorch transformers numpy bpemb joblib conllu boltons`
