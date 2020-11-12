@@ -24,7 +24,7 @@ python main.py train \
 
 The arguments `--use-char`, `--use-bpe`, `--use-bert` specify whether to use (randomly initialized) character embeddings, (pretrained) BPE embeddings, and/or (multilingual) BERT. As described in the paper, we use a "meta" LSTM to combine all input representations, which is specified with `--use-meta-rnn`. To automatically select the "best" BPE vocabulary size for the given language, set `--best-vocab-size`, or select a vocabulary size manually with `--vocab-size` (supported vocabulary size for each language can be found [here](https://nlp.h-its.org/bpemb/#download)).
 
-Training will take between 10 minutes and several hours, depending on the size of the dataset for the given language. For the above command you should see training finish due to early stopping and then see the results on the test set
+Training will take between 10 minutes and several hours, depending on the size of the dataset for the given language. For the above command you should see training finish due to early stopping and then see the results on the test set:
 
 ```
 2020-11-12 12:38:08| score acc_0.9316/0.9328
