@@ -68,7 +68,7 @@ Having said that, the project structure is:
 - main.py: entry point, run either `python main.py train` or `python main.py test`
 - model.py: a sequence tagging model
 - trainer.py: contains all the boiler plate for loading data and model training
-- data: datasets in plain text format
+- data/: contains datasets in plain text format
 - out/: results and model checkpoints will be written in a subdirectory for each run
 - out/cache: tensorized datasets will be cached here
 
