@@ -78,7 +78,7 @@ Feel free to send me an email or open an issue if anything is unclear and/or doe
 
 `pytorch transformers numpy bpemb joblib conllu boltons`
 
-The first three libraries are well-known, the other ones are uses for:
+The first three libraries are well-known, the other ones are used for:
 
 - bpemb: pretrained subword embeddings
 - joblib: for pickling
