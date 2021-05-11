@@ -5,7 +5,7 @@ from transformers import AutoTokenizer, AutoConfig, AutoModel
 
 import numpy as np
 
-from dougu import flatten, lines, get_logger
+from util import flatten, lines, get_logger
 
 
 _device = torch.device("cuda:0" if torch.cuda.is_available() else 'cpu')
