@@ -130,7 +130,7 @@ class Trainer():
         nshapes = self.data.shape_enc.nlabels
         nchars = self.data.char_enc.nlabels
         bpe_emb = emb_layer(
-            self.data.bpemb.emb,
+            self.data.bpemb.vectors,
             trainable=not self.conf.emb_fixed,
             use_weights=not self.conf.emb_random_init)
         if self.conf.use_fasttext:

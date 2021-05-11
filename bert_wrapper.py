@@ -5,7 +5,7 @@ from transformers import AutoTokenizer, AutoConfig, AutoModel
 
 import numpy as np
 
-from util import flatten, lines, get_logger
+from util import flatten, lines
 
 
 _device = torch.device("cuda:0" if torch.cuda.is_available() else 'cpu')
@@ -32,7 +32,6 @@ class Transformer():
             model_name = model_name[:-len('-randinit')]
         self.model_name = model_name
         self.device = device or _device
-        self.log = get_logger()
         do_lower_case = "uncased" in model_name
         self.tokenizer = AutoTokenizer.from_pretrained(
             self.model_name, do_lower_case=do_lower_case)
@@ -81,7 +80,6 @@ class Transformer():
             word_emb = self.model.get_input_embeddings().weight
             self.dim = word_emb.size(1)
             device_count = torch.cuda.device_count()
-            self.log.info(f'device count: {device_count}')
             self.model.to(device=self.device)
 
     def update_special_tokens(self, additional_special_tokens):

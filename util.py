@@ -98,8 +98,9 @@ def get_formatter(fmt=None, datefmt=None):
     return logging.Formatter(fmt, datefmt=datefmt)
 
 
-def get_logger(fmt=None, datefmt=None):
+def get_logger(file=None, fmt=None, datefmt=None):
     log = logging.getLogger(__name__)
+    log.setLevel(logging.INFO)
     formatter = get_formatter(fmt, datefmt)
     if not logging.root.handlers:
         logging.root.addHandler(logging.StreamHandler())
@@ -188,7 +189,7 @@ def add_embeddings(keyed_vectors, *words, init=None):
         init = np.zeros
     syn0 = keyed_vectors.syn0
     for word in words:
-        keyed_vectors.vocab[word] = Vocab(count=0, index=syn0.shape[0])
+        keyed_vectors.key_to_index[word] = Vocab(count=0, index=syn0.shape[0])
         keyed_vectors.syn0 = np.concatenate([syn0, init((1, syn0.shape[1]))])
         keyed_vectors.index2word.append(word)
     return syn0.shape[0]
@@ -208,9 +209,6 @@ def load_word2vec_file(
     from gensim.models import KeyedVectors
     word2vec_file = str(word2vec_file)
     binary = word2vec_file.endswith(".bin")
-    logging.basicConfig(level=logging.INFO)
-    log = logging.getLogger(__name__)
-    log.info("loading %s", word2vec_file)
     vecs = KeyedVectors.load_word2vec_format(word2vec_file, binary=binary)
     if add_unk:
         if unk not in vecs:
@@ -290,12 +288,8 @@ def emb_layer(
         vecs, trainable=False, use_weights=True, dtype=torch.float32,
         device='cuda',
         **kwargs):
-    """Create an Embedding layer from a gensim KeyedVectors instance
-     or an embedding matrix."""
-    try:
-        emb_weights = tensor(vecs.syn0, dtype=dtype).to(device=device)
-    except AttributeError:
-        emb_weights = vecs
+    """Create an Embedding layer from a numpy array."""
+    emb_weights = tensor(vecs, dtype=dtype).to(device=device)
     emb = nn.Embedding(*emb_weights.shape, **kwargs)
     if use_weights:
         emb.weight = nn.Parameter(emb_weights)
@@ -666,16 +660,16 @@ def to_word_indexes(tokens, keyed_vectors, unk=None, fallback_transform=None):
     """Look up embedding indexes for tokens."""
     if fallback_transform:
         assert unk
-        unk = keyed_vectors.vocab[unk]
+        unk = keyed_vectors.key_to_index[unk]
         return [
-            keyed_vectors.vocab.get(
+            keyed_vectors.key_to_index.get(
                 token,
-                keyed_vectors.vocab.get(fallback_transform(token), unk)).index
+                keyed_vectors.key_to_index.get(fallback_transform(token), unk)).index
             for token in tokens]
     if unk is None:
-        return [keyed_vectors.vocab[token].index for token in tokens]
-    unk = keyed_vectors.vocab[unk]
-    return [keyed_vectors.vocab.get(token, unk).index for token in tokens]
+        return [keyed_vectors.key_to_index[token].index for token in tokens]
+    unk = keyed_vectors.key_to_index[unk]
+    return [keyed_vectors.key_to_index.get(token, unk).index for token in tokens]
 
 
 # https://github.com/glample/tagger/blob/master/utils.py

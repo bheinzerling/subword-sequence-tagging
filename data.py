@@ -176,7 +176,7 @@ class DatasetBase(ABC):
         if conf.use_fasttext:
             f = conf.fasttext_emb_file.format(dataset=self.name, lang=lang)
             self.fasttext_emb = load_word2vec_file(f, add_unk=True)
-        self.pad_idx = self.bpemb.emb.vocab["<pad>"].index
+        self.pad_idx = self.bpemb.emb.key_to_index["<pad>"]
         if not conf.no_dataset_tensorize:
             self.tensorize()
 
