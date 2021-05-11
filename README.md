@@ -9,7 +9,7 @@ To run the POS tagging experiments described in the paper use a command like the
 ```
 python main.py train \
     --dataset ud_1_2 \
-    --lang et \
+    --lang el \
     --tag upostag \
     --use-char \
     --use-bpe \
@@ -24,7 +24,7 @@ python main.py train \
 
 The arguments `--use-char`, `--use-bpe`, `--use-bert` specify whether to use (randomly initialized) character embeddings, (pretrained) BPE embeddings, and/or (multilingual) BERT. As described in the paper, we use a "meta" LSTM to combine all input representations, which is specified with `--use-meta-rnn`. To automatically select the "best" BPE vocabulary size for the given language, set `--best-vocab-size`, or select a vocabulary size manually with `--vocab-size` (supported vocabulary size for each language can be found [here](https://nlp.h-its.org/bpemb/#download)).
 
-Training will take between 10 minutes and several hours, depending on the size of the dataset for the given language. For the above command you should see training finishwith due to early stopping and then see the results on the test set
+Training will take between 10 minutes and several hours, depending on the size of the dataset for the given language. For the above command you should see training finish due to early stopping and then see the results on the test set:
 
 ```
 2020-11-12 12:38:08| score acc_0.9316/0.9328
@@ -60,22 +60,25 @@ python main.py train \
 
 This code was written in 2018 and would look much different if it were written today.
 If you want to develop your own sequence tagging models, I recommend using https://github.com/flairNLP/flair instead.
-Project structure:
+
+Having said that, the project structure is:
 
 - argparser.py: contains all command line arguments
 - data.py: code for loading plain text data and converting it into pytorch tensors
 - main.py: entry point, run either `python main.py train` or `python main.py test`
 - model.py: a sequence tagging model
 - trainer.py: contains all the boiler plate for loading data and model training
-- data: datasets in plain text format
+- data/: contains datasets in plain text format
 - out/: results and model checkpoints will be written in a subdirectory for each run
 - out/cache: tensorized datasets will be cached here
+
+Feel free to send me an email or open an issue if anything is unclear and/or doesn't work.
 
 ## Requirements
 
 `pytorch transformers numpy bpemb joblib conllu boltons`
 
-The first three libraries are well-known, the other ones are uses for:
+The first three libraries are well-known, the other ones are used for:
 
 - bpemb: pretrained subword embeddings
 - joblib: for pickling
