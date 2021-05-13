@@ -1,4 +1,4 @@
-transformers==4.3.3
+transformers==2.10.0
 conllu==4.0
 gensim==4.0.1
 filelock==3.0.12
